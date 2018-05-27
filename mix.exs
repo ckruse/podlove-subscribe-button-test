@@ -4,7 +4,7 @@ defmodule PodloveSubscribeButton.Mixfile do
   def project do
     [
       app: :podlove_subscribe_button,
-      version: "0.0.3",
+      version: "0.0.4",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
