@@ -29,7 +29,7 @@ main {
   min-height: 80vh;
   max-width: 50rem;
   box-shadow: #ccc 1px 1px 8px;
-  margin: 4em auto;
+  padding: 4em 0.5rem 0.125rem 0.5rem;
 }
 
 h1,
@@ -117,27 +117,60 @@ input[type="checkbox"] {
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
+  display: block;
 }
 
-td,
-th {
-  padding: 0.25rem 0;
+thead {
+  display: none;
 }
 
-thead th {
-  text-align: left;
-  border-bottom: 1px solid #ccc;
+tbody tr {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 tbody th {
-  font-weight: normal;
-  text-align: left;
+  order: 0;
+  flex: 1 1 100%;
+}
+tbody td {
+  order: 1;
+  margin-bottom: 1rem;
 }
 
 @media only screen and (min-width: 35em) {
   main {
     padding: 6em 1em 1em 1em;
+    margin: 4em auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    display: table;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tbody tr {
+    display: table-row;
+  }
+
+  td,
+  th {
+    padding: 0.25rem 0;
+    flex: none;
+  }
+
+  thead th {
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+
+  tbody th {
+    font-weight: normal;
+    text-align: left;
   }
 }
