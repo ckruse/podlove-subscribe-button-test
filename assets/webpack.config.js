@@ -45,15 +45,15 @@ module.exports = (env, options) => ({
     new CopyWebpackPlugin([{ from: "static/", to: "../" }]),
     new VueLoaderPlugin()
   ],
-  devtool: "#eval-source-map",
+  devtool: "source-map",
   stats: {
     colors: true
   }
 });
 
 if (process.env.NODE_ENV === "production") {
-  module.exports.devtool = "#source-map";
-  // http://vue-loader.vuejs.org/en/workflow/production.html
+  module.exports.mode = "production";
+
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       "process.env": {
