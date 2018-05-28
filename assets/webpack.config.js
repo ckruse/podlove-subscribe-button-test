@@ -1,14 +1,14 @@
 const path = require("path");
+const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { VueLoaderPlugin } = require("vue-loader");
+const ENV = process.env.MIX_ENV || process.env.NODE_ENV || "dev";
+const IS_PROD = ENV === "prod" || ENV === "production";
 
-module.exports = (env, options) => ({
-  optimization: {
-    minimizer: [new UglifyJsPlugin({ cache: true, parallel: true, sourceMap: true }), new OptimizeCSSAssetsPlugin({})]
-  },
+module.exports = {
   entry: "./js/app.js",
   output: {
     filename: "app.js",
@@ -45,25 +45,29 @@ module.exports = (env, options) => ({
     new CopyWebpackPlugin([{ from: "static/", to: "../" }]),
     new VueLoaderPlugin()
   ],
-  devtool: "source-map",
+  devtool: "eval-source-map",
   stats: {
     colors: true
   }
-});
+};
 
-if (process.env.NODE_ENV === "production") {
-  module.exports.mode = "production";
+if (IS_PROD) {
+  module.exports.devtool = "source-map";
+  module.exports.optimization = {
+    minimizer: [
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true
+      }),
+      new OptimizeCSSAssetsPlugin({})
+    ]
+  };
 
   module.exports.plugins = (module.exports.plugins || []).concat([
     new webpack.DefinePlugin({
       "process.env": {
         NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
       }
     }),
     new webpack.LoaderOptionsPlugin({
